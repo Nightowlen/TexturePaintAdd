@@ -2,7 +2,7 @@ bl_info = {
     "name": "TexturePaintAdd",
     "author": "",
     "description": "Blender Addon to add image textures nodes to objects for a faster workflow",
-    "blender": (3, 2, 0),
+    "blender": (4, 0, 0),
     "version": (0, 3, 0),
     "location": "Node Editor > Properties",
     "category": "Node"

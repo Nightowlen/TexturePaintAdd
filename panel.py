@@ -78,208 +78,51 @@ class NPRPanel2(Panel):
         layout.use_property_split = True
         layout.use_property_decorate = False
 
-        img_512 = 512
-        img_1k = 1024
-        img_2k = 2048
-        img_4k = 4096
+        img_sizes = [512, 1024, 2048, 4096]
+        img_sizes_name = ["512", "1K", "2K", "4K"]
 
-        # Prefix
-        row = layout.row()
+        def draw_texture_row(label, color_prop, name_prop, width_prop, height_prop, cpropimage):
+            
+            # Texture 
+            row = layout.row()
+            split = row.split(factor=1, align=True)
+            col = split.column()
+            col.label(text=label)
 
-        split = row.split(align=True)
-        col = split.column()
-        col.label(text="Prefix Texture")
+            split = row.split(align=True)
+            col = split.column()
+            col.prop(context.scene, color_prop, text="")
 
-        split = row.split(align=True)
-        col = split.column()
-        col.prop(context.scene, "set_prefix_color", text="")
+            split = row.split(factor=1, align=True)
+            col = split.column()
+            col.prop(context.scene, name_prop, text="Name")
 
-        split = row.split(align=True)
-        col = split.column()
-        col.prop(context.scene, "set_prefix_name", text="Name")
+            # Texture manual sizes
+            row = layout.row()
+            split = row.split(factor=1, align=True)
+            col = split.column()
+            col.label(text="Resolution")
 
-        # Prefix manual sizes
-        row = layout.row()
+            split = row.split(factor=1, align=True)
+            col = split.column()
+            col.prop(context.scene, width_prop, text="Width")
 
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Resolution")
+            split = row.split(factor=1, align=True)
+            col = split.column()
+            col.prop(context.scene, height_prop, text="Height")
 
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_width_prefix", text="Width")
+            row = layout.row()
+            for size, size_name in zip(img_sizes, img_sizes_name):
+                props = row.operator('shading.set_res_img', text=f"Image Size {size_name}")
+                props.cpropimage = cpropimage
+                props.imageres = size
 
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_height_prefix", text="Height")
+            layout.separator()
 
-        row = layout.row()
-
-        props = row.operator('shading.set_res_img', text="Image Size 512")
-        props.cpropimage = 'prefix'
-        props.imageres = img_512
-
-        props = row.operator('shading.set_res_img', text="Image Size 1K")
-        props.cpropimage = 'prefix'
-        props.imageres = img_1k
-
-        props = row.operator('shading.set_res_img', text="Image Size 2K")
-        props.cpropimage = 'prefix'
-        props.imageres = img_2k
-
-        props = row.operator('shading.set_res_img', text="Image Size 4K")
-        props.cpropimage = 'prefix'
-        props.imageres = img_4k
-
-        layout.separator()
-
-        # light
-        row = layout.row()
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Texture 1")
-
-        split = row.split(align=True)
-        col = split.column()
-        col.prop(context.scene, "set_tex1_color", text="")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_tex1_name", text="Name")
-
-        # light manual sizes
-        row = layout.row()
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Resolution")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_width_tex1", text="Width")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_height_tex1", text="Height")
-
-        row = layout.row()
-
-        props = row.operator('shading.set_res_img', text="Image Size 512")
-        props.cpropimage = 'tex1'
-        props.imageres = img_512
-
-        props = row.operator('shading.set_res_img', text="Image Size 1K")
-        props.cpropimage = 'tex1'
-        props.imageres = img_1k
-
-        props = row.operator('shading.set_res_img', text="Image Size 2K")
-        props.cpropimage = 'tex1'
-        props.imageres = img_2k
-
-        props = row.operator('shading.set_res_img', text="Image Size 4K")
-        props.cpropimage = 'tex1'
-        props.imageres = img_4k
-
-        layout.separator()
-
-        # shadow
-        row = layout.row()
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Texture 2")
-
-        split = row.split(align=True)
-        col = split.column()
-        col.prop(context.scene, "set_tex2_color", text="")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_tex2_name", text="Name")
-
-        # shadow manual sizes
-        row = layout.row()
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Resolution")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_width_tex2", text="Width")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_height_tex2", text="Height")
-
-        row = layout.row()
-
-        props = row.operator('shading.set_res_img', text="Image Size 512")
-        props.cpropimage = 'tex2'
-        props.imageres = img_512
-
-        props = row.operator('shading.set_res_img', text="Image Size 1K")
-        props.cpropimage = 'tex2'
-        props.imageres = img_1k
-
-        props = row.operator('shading.set_res_img', text="Image Size 2K")
-        props.cpropimage = 'tex2'
-        props.imageres = img_2k
-
-        props = row.operator('shading.set_res_img', text="Image Size 4K")
-        props.cpropimage = 'tex2'
-        props.imageres = img_4k
-
-        layout.separator()
-
-        # shadow 2
-        row = layout.row()
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Texture 3")
-
-        split = row.split(align=True)
-        col = split.column()
-        col.prop(context.scene, "set_tex3_color", text="")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_tex3_name", text="Name")
-
-        # shadow 2 manual sizes
-        row = layout.row()
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.label(text="Resolution")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_width_tex3", text="Width")
-
-        split = row.split(factor=1, align=True)
-        col = split.column()
-        col.prop(context.scene, "set_res_height_tex3", text="Height")
-
-        row = layout.row()
-
-        props = row.operator('shading.set_res_img', text="Image Size 512")
-        props.cpropimage = 'tex3'
-        props.imageres = img_512
-
-        props = row.operator('shading.set_res_img', text="Image Size 1K")
-        props.cpropimage = 'tex3'
-        props.imageres = img_1k
-
-        props = row.operator('shading.set_res_img', text="Image Size 2K")
-        props.cpropimage = 'tex3'
-        props.imageres = img_2k
-
-        props = row.operator('shading.set_res_img', text="Image Size 4K")
-        props.cpropimage = 'tex3'
-        props.imageres = img_4k
+        draw_texture_row("Prefix Texture", "set_prefix_color", "set_prefix_name", "set_res_width_prefix", "set_res_height_prefix", 'prefix')
+        draw_texture_row("Texture 1", "set_tex1_color", "set_tex1_name", "set_res_width_tex1", "set_res_height_tex1", 'tex1')
+        draw_texture_row("Texture 2", "set_tex2_color", "set_tex2_name", "set_res_width_tex2", "set_res_height_tex2", 'tex2')
+        draw_texture_row("Texture 3", "set_tex3_color", "set_tex3_name", "set_res_width_tex3", "set_res_height_tex3", 'tex3')
 
         # Add images
         layout.separator()
